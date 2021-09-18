@@ -14,7 +14,7 @@ import include.conexion as cnx
 @login_required
 def index():
 
-    return render_template('index.html', segment='index')
+    return render_template('index.html', segment='index', name= current_user.username)
 
 @blueprint.route('/listasecreta')
 @login_required
