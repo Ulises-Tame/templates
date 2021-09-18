@@ -4,10 +4,11 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from app.home import blueprint
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, json
 from flask_login import login_required, current_user
 from app import login_manager
 from jinja2 import TemplateNotFound
+import include.conexion as cnx
 
 @blueprint.route('/index')
 @login_required
@@ -18,8 +19,20 @@ def index():
 @blueprint.route('/listasecreta')
 @login_required
 def listasecreta():
-
-    return render_template('listasecreta.html', segment='index')
+    try:
+        conn=cnx.mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute('SELECT * FROM T_Lecturas')
+        data=cursor.fetchall()
+        listaVO=[]
+        for fila in data:
+            listaVO.append(fila)
+    except Exception as e:
+        return json.dumps({'error':str(e)})
+    finally: 
+        cursor.close()
+        conn.close()
+    return render_template('listasecreta.html', eventos=listaVO)
 
 @blueprint.route('/<template>')
 @login_required
