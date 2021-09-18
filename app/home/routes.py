@@ -15,6 +15,12 @@ def index():
 
     return render_template('index.html', segment='index')
 
+@blueprint.route('/listasecreta')
+@login_required
+def listasecreta():
+
+    return render_template('listasecreta.html', segment='index')
+
 @blueprint.route('/<template>')
 @login_required
 def route_template(template):
