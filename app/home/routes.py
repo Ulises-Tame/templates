@@ -32,7 +32,7 @@ def listasecreta():
     finally: 
         cursor.close()
         conn.close()
-    return render_template('listasecreta.html', eventos=listaVO)
+    return render_template('listasecreta.html', eventos=listaVO, name= current_user.username)
 
 @blueprint.route('/<template>')
 @login_required
